@@ -1,0 +1,40 @@
+// Wait for the DOM to load
+document.addEventListener('DOMContentLoaded', function() {
+    // Query for the submit button and input task field once in the beginning
+    const submitButton = document.getElementById('submit');
+    const newTaskInput = document.getElementById('task');
+
+    // Disable the submit button by default
+    submitButton.disabled = true;
+
+    // Listen for input to be typed into the input field
+    newTaskInput.addEventListener('input', function() {
+        // Enable/disable the submit button based on whether the input field has text
+        submitButton.disabled = newTaskInput.value.trim() === '';
+    });
+
+    // Listen for submission of the form
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // Prevent the default submission of the form
+        event.preventDefault();
+
+        // Find the task the user just submitted
+        const task = newTaskInput.value.trim();
+
+        if (task) {
+            // Create a list item for the new task
+            const listItem = document.createElement('li');
+            listItem.textContent = task;
+
+            // Add the new element to our unordered list
+            document.getElementById('tasks').appendChild(listItem);
+
+            // Clear the input field and disable the submit button again
+            newTaskInput.value = '';
+            submitButton.disabled = true;
+        }
+
+        // Return false to prevent the default form submission
+        return false;
+    });
+});
